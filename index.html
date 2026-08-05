@@ -586,7 +586,7 @@ function over(w,opts){
   refreshUI();setTimeout(()=>showEnd(),700);
 }
 
-/* ================= ИИ: улучшенная версия ================= */
+/* ================= ИИ: ПРАВИЛЬНАЯ СТРАТЕГИЯ ================= */
 function hiddenCards(){
   const known=new Set();
   G.bita.forEach(c=>known.add(c));
@@ -597,7 +597,7 @@ function hiddenCards(){
 const isTrumpC=c=>c.suit===G.trump;
 const countTrumps=h=>h.filter(isTrumpC).length;
 
-/* Улучшенная оценка позиции */
+/* Оценка позиции */
 function advantage(){
   const dl=G.deck.length, my=G.ai.hand.length, his=G.human.hand.length;
   const hid=hiddenCards(), hidTr=hid.filter(isTrumpC);
@@ -615,112 +615,88 @@ function advantage(){
   // Старшие козыри очень ценны
   s+=(myHighTr-hisHighTrEst)*1.5;
   
-  // Наличие пар для подкидывания
-  const myPairs=new Set();
-  const rankCount={};
-  G.ai.hand.forEach(c=>{rankCount[c.rank]=(rankCount[c.rank]||0)+1;});
-  Object.entries(rankCount).forEach(([r,n])=>{if(n>=2)myPairs.add(+r);});
-  s+=myPairs.size*0.8;
+  // Высокие некозырные карты (Туз, Король) - ценны для защиты
+  const myHighNonTr=G.ai.hand.filter(c=>!isTrumpC(c)&&c.rank>=13).length;
+  const hisHighNonTrEst=dl===0?hid.filter(c=>!isTrumpC(c)&&c.rank>=13).length:(hid.length?hid.filter(c=>!isTrumpC(c)&&c.rank>=13).length*his/hid.length:0);
+  s+=(myHighNonTr-hisHighNonTrEst)*1.2;
   
   return s;
 }
 function posture(){const a=advantage();return a>=3?'winning':(a<=-3?'losing':'even');}
 
-/* Улучшенная оценка боли от покрытия */
+/* Оценка "боли" от использования карты для покрытия */
 function coverPain(a,c){
   const post=posture(), dl=G.deck.length;
   const myTr=countTrumps(G.ai.hand);
   
   if(isTrumpC(c)&&!isTrumpC(a)){
-    // Использование козыря против некозыря
+    // Использование козыря против некозыря - очень больно
     if(dl===0){
-      // В эндшпиле козыри менее ценны
-      return c.rank>=13?2.0:(c.rank>=11?1.2:0.6);
+      // В эндшпиле козыри менее ценны, но всё равно дороги
+      return c.rank>=13?2.5:(c.rank>=11?1.8:1.0);
     }
     
-    let p=(c.rank-5)*1.2;
+    let p=(c.rank-5)*1.5;
     
     // Чем больше козырей у нас, тем дешевле их использовать
-    p*=(myTr>=4?0.5:myTr>=3?0.7:myTr===2?1.0:1.8);
+    p*=(myTr>=4?0.6:myTr>=3?0.8:myTr===2?1.2:2.0);
     
     // Чем больше карт в колоде, тем ценнее козыри
-    p*=(1+dl/15);
+    p*=(1+dl/12);
     
-    // Если выигрываем - бережём козыри
-    if(post==='winning')p*=1.3;
+    // Если выигрываем - бережём козыри ещё сильнее
+    if(post==='winning')p*=1.5;
     
     // Если проигрываем и колода мала - используем
-    if(post==='losing'&&dl<=8)p*=0.8;
+    if(post==='losing'&&dl<=8)p*=0.7;
     
     return p;
   }
   
-  // Обычное покрытие
-  let p=(c.rank-5)*0.7;
+  // Обычное покрытие некозырем
+  let p=(c.rank-5)*0.5;
   
-  // Старшие карты больнее использовать
-  if(c.rank>=13)p+=3;
-  else if(c.rank>=11)p+=1.5;
+  // Высокие карты (Туз, Король) - БОЛЬШЕ больно использовать, их нужно беречь для защиты!
+  if(c.rank>=14)p+=8; // Туз - очень ценен
+  else if(c.rank>=13)p+=6; // Король - ценен
+  else if(c.rank>=12)p+=3; // Дама
+  else if(c.rank>=11)p+=1.5; // Валет
   
-  // В эндшпиле карты менее ценны
-  if(dl===0)p*=0.4;
+  // В эндшпиле высокие карты ещё ценнее
+  if(dl===0){
+    if(c.rank>=13)p+=4;
+  }
   
   return p;
 }
 
-/* Улучшенная оценка боли от забора карт */
+/* Оценка "боли" от забора карт */
 function takePain(n){
   const dl=G.deck.length;
   const myHand=G.ai.hand.length;
   
   // Базовая боль: больше карт = хуже
-  let p=n*1.5+2;
+  let p=n*1.8+2;
   
   // В эндшпиле забирать ОЧЕНЬ больно
   if(dl===0){
-    p+=10+n*3;
+    p+=12+n*3.5;
     // Если у нас мало карт - ещё больнее
-    if(myHand<=2)p+=5;
+    if(myHand<=2)p+=6;
   }else if(dl<=6){
-    p+=5+n*1.5;
+    p+=6+n*2;
   }else if(dl<=12){
-    p+=2+n*0.5;
+    p+=3+n*0.8;
   }
   
   // Если у противника мало карт и колода есть - он доберёт хорошие карты
-  if(G.human.hand.length<=2&&dl>0)p+=4;
+  if(G.human.hand.length<=2&&dl>0)p+=5;
   
   // Позиционные корректировки
-  if(posture()==='winning')p+=2;
-  if(posture()==='losing')p-=1;
+  if(posture()==='winning')p+=2.5;
+  if(posture()==='losing')p-=1.5;
   
   return p;
-}
-
-/* Оценка ценности карты в текущей позиции */
-function cardValue(c){
-  const dl=G.deck.length;
-  const myHand=G.ai.hand;
-  
-  let val=c.rank;
-  
-  // Козыри ценнее
-  if(isTrumpC(c)){
-    val+=8;
-    if(dl>10)val+=4;
-    else if(dl>0)val+=2;
-    else val+=1;
-  }else{
-    // Высокие некозырные карты плохи - их трудно сбросить
-    if(c.rank>=13&&dl>6)val-=3;
-    else if(c.rank>=11&&dl>8)val-=1;
-  }
-  
-  // Пары ценны (можно подкинуть)
-  const pairs=myHand.filter(x=>x.rank===c.rank&&x!==c).length;
-  val+=pairs*2;
-  
-  return val;
 }
 
 /* Какие карты противник может побить */
@@ -753,10 +729,11 @@ function bestCover(a,hand){
 function pickMatch(ranks){
   const m=G.ai.hand.filter(c=>ranks.has(c.rank));
   if(!m.length)return null;
-  // Для перевода выбираем наименее ценную карту
+  // Для перевода выбираем карту с наименьшей "болью" использования
   m.sort((a,b)=>{
-    const av=cardValue(a), bv=cardValue(b);
-    return av-bv;
+    const apain=coverPain({suit:-1,rank:0},a); // фиктивная атака для оценки ценности
+    const bpain=coverPain({suit:-1,rank:0},b);
+    return apain-bpain;
   });
   const c=m[0];
   // Не переводим старшим козырем
@@ -764,7 +741,7 @@ function pickMatch(ranks){
   return c;
 }
 
-/* УЛУЧШЕННАЯ АТАКА */
+/* ПРАВИЛЬНАЯ АТАКА - ходим со слабых карт, бережём высокие! */
 function aiFirst(){
   const h=G.ai.hand, dl=G.deck.length;
   const post=posture();
@@ -790,37 +767,41 @@ function aiFirst(){
   let pick=null;
   let bestScore=-Infinity;
   
-  // 1. Приоритет: ходить с пар (чтобы вторую можно было подкинуть)
+  // 1. Приоритет: ходить с пар слабых карт (чтобы вторую можно было подкинуть)
   if(pairs.length>0){
+    // Сортируем пары по слабости (6 лучше чем 10)
     pairs.sort((a,b)=>+a[0]-+b[0]);
-    // Берём самую слабую пару и ходим слабейшей картой из неё
+    // Берём самую слабую пару
     pick=pairs[0][1][0];
-    bestScore=20-pairs[0][1][0].rank;
+    bestScore=30-pairs[0][1][0].rank;
   }
   
-  // 2. Если нет пар или хотим рассмотреть другие варианты
+  // 2. Рассматриваем одиночные карты
   for(const c of nonTrumps){
     let score=0;
     
-    // Базовая оценка: слабее = лучше
-    score-=c.rank*1.5;
+    // ХОДИМ СО СЛАБЫХ КАРТ! (6, 7, 8 - лучше всего)
+    score+=(14-c.rank)*2; // чем слабее карта, тем выше оценка
     
-    // Парные карты ценнее
+    // Высокие карты (Туз, Король) - бережём, штраф за их использование
+    if(c.rank>=14)score-=15; // Туз - не ходим!
+    else if(c.rank>=13)score-=12; // Король - не ходим!
+    else if(c.rank>=12)score-=6; // Дама - неохотно
+    else if(c.rank>=11)score-=3; // Валет
+    
+    // Парные карты - хорошо, можно подкинуть
     const sameRank=h.filter(x=>x.rank===c.rank&&x!==c).length;
-    if(sameRank>0)score+=8;
+    if(sameRank>0)score+=10;
     
     // Вероятность что противник побьёт
     const oppInfo=opponentCanBeat(c);
-    if(oppInfo.expectedBeaters<0.2)score+=5;
-    else if(oppInfo.expectedBeaters<0.8)score+=2;
+    if(oppInfo.expectedBeaters<0.2)score+=6; // точно не побьёт - отлично
+    else if(oppInfo.expectedBeaters<0.8)score+=3;
     else score-=oppInfo.expectedBeaters*2;
     
-    // Если карта низкая - хорошо
-    if(c.rank<=8)score+=3;
-    
     // Позиционные корректировки
-    if(post==='winning')score+=1;
-    if(post==='losing'&&c.rank>=12)score-=2;
+    if(post==='winning')score+=2;
+    if(post==='losing'&&c.rank>=12)score-=3; // в проигрыше бережём высокие ещё сильнее
     
     if(score>bestScore){
       bestScore=score;
@@ -878,34 +859,39 @@ function aiEndgameAttack(){
     if(beaters.length===0){
       score+=100;
     }else{
-      score-=beatProb*50;
+      score-=beatProb*60;
       // Если вероятность высокая - очень плохо
-      if(beatProb>0.5)score-=30;
+      if(beatProb>0.5)score-=40;
     }
     
     // Не ходим козырями если есть другие карты
     const nonTrumps=h.filter(x=>!isTrumpC(x));
     if(isTrumpC(c)&&nonTrumps.length>0){
-      score-=40;
+      score-=50;
     }
     
-    // Избавляемся от высоких карт
-    score-=c.rank*2;
+    // ХОДИМ СО СЛАБЫХ КАРТ, бережём высокие!
+    score+=(14-c.rank)*3; // чем слабее, тем лучше
+    
+    // Высокие карты - штраф за использование
+    if(c.rank>=14)score-=20; // Туз
+    else if(c.rank>=13)score-=15; // Король
+    else if(c.rank>=12)score-=8; // Дама
     
     // Парные карты: ходим одной, оставляем вторую для подкидывания
     const sameRank=h.filter(x=>x.rank===c.rank&&x!==c);
     if(sameRank.length>0){
-      score+=15;
+      score+=20;
       // Ходим слабейшей из пары
-      if(c.rank<=sameRank[0].rank)score+=5;
+      if(c.rank<=sameRank[0].rank)score+=8;
     }
     
     // Если у противника 1 карта
     if(oppCount===1){
       if(beaters.length===0){
-        score+=200; // Точно не побьёт!
+        score+=250; // Точно не побьёт!
       }else{
-        score-=100; // Может побить - плохо
+        score-=150; // Может побить - плохо
       }
     }
     
@@ -918,7 +904,7 @@ function aiEndgameAttack(){
   doAttack('ai',bestCard);
 }
 
-/* УЛУЧШЕННОЕ ПОДКИДЫВАНИЕ */
+/* ПРАВИЛЬНОЕ ПОДКИДЫВАНИЕ - подкидываем слабые карты! */
 function aiMore(){
   const ranks=tableRanks(), dl=G.deck.length, his=G.human.hand.length, post=posture();
   const cand=G.ai.hand.filter(c=>ranks.has(c.rank));
@@ -941,26 +927,30 @@ function aiMore(){
     
     // НИКОГДА не подкидываем козыри (кроме крайних случаев)
     if(isTrumpC(c)){
-      score-=50;
+      score-=60;
       // Только если козырь очень слабый (6-7) и их много
-      if(c.rank<=7&&countTrumps(G.ai.hand)>=4)score+=40;
-      else if(c.rank<=8&&countTrumps(G.ai.hand)>=5)score+=30;
+      if(c.rank<=7&&countTrumps(G.ai.hand)>=4)score+=50;
+      else if(c.rank<=8&&countTrumps(G.ai.hand)>=5)score+=40;
       else continue; // пропускаем эту карту
     }
     
-    // Хотим избавиться от высоких некозырных карт
-    score-=c.rank*1.0;
-    if(c.rank>=13)score+=5; // Туз, Король - избавляемся
-    else if(c.rank>=11)score+=2; // Валет, Дама
+    // ПОДКИДЫВАЕМ СЛАБЫЕ КАРТЫ, бережём высокие!
+    score+=(14-c.rank)*1.5; // чем слабее, тем лучше
+    
+    // Высокие карты - штраф за подкидывание
+    if(c.rank>=14)score-=18; // Туз - не подкидываем!
+    else if(c.rank>=13)score-=14; // Король - не подкидываем!
+    else if(c.rank>=12)score-=8; // Дама - неохотно
+    else if(c.rank>=11)score-=4; // Валет
     
     // Но не подкидываем слишком много
-    if(G.throws>=4)score-=20;
-    if(his<=2&&G.throws>=3)score-=25;
-    if(his<=3&&G.throws>=4)score-=15;
+    if(G.throws>=4)score-=25;
+    if(his<=2&&G.throws>=3)score-=30;
+    if(his<=3&&G.throws>=4)score-=20;
     
     // Позиционные корректировки
-    if(post==='losing')score+=3; // Агрессивнее когда проигрываем
-    if(post==='winning'&&c.rank>=10)score-=5; // Бережём карты когда выигрываем
+    if(post==='losing')score+=4; // Агрессивнее когда проигрываем
+    if(post==='winning'&&c.rank>=11)score-=6; // Бережём высокие когда выигрываем
     
     if(score>bestScore){
       bestScore=score;
@@ -969,7 +959,7 @@ function aiMore(){
   }
   
   // Подкидываем только если оценка достаточно хорошая
-  if(bestPick&&bestScore>-10){
+  if(bestPick&&bestScore>-15){
     G.throws++;
     doAttack('ai',bestPick);
   }else{
@@ -994,14 +984,19 @@ function aiEndgameMore(cand){
     // Противник может побить?
     const beaters=hidden.filter(x=>canBeat(c,x));
     if(beaters.length===0){
-      score+=30; // Точно не побьёт
+      score+=40; // Точно не побьёт
     }else{
       const beatProb=oppCount>0?beaters.length/hidden.length:0;
-      score-=beatProb*40;
+      score-=beatProb*50;
     }
     
-    // Избавляемся от высоких карт
-    score-=c.rank*2;
+    // Подкидываем СЛАБЫЕ карты, бережём высокие!
+    score+=(14-c.rank)*2.5; // чем слабее, тем лучше
+    
+    // Высокие карты - штраф
+    if(c.rank>=14)score-=25; // Туз
+    else if(c.rank>=13)score-=20; // Король
+    else if(c.rank>=12)score-=12; // Дама
     
     if(score>bestScore){
       bestScore=score;
@@ -1009,7 +1004,7 @@ function aiEndgameMore(cand){
     }
   }
   
-  if(bestPick&&bestScore>0){
+  if(bestPick&&bestScore>5){
     G.throws++;
     doAttack('ai',bestPick);
   }else{
@@ -1044,11 +1039,11 @@ function aiDefStep(){
     if(mc){
       // Решаем, стоит ли переводить
       const shouldTransfer=anyMissing
-        ||totalPain>tpain+2.5
-        ||(dl===0&&totalPain>4)
-        ||(G.table.length>=3&&totalPain>tpain+1)
-        ||(posture()==='losing'&&Math.random()<0.6)
-        ||Math.random()<0.08;
+        ||totalPain>tpain+3
+        ||(dl===0&&totalPain>5)
+        ||(G.table.length>=3&&totalPain>tpain+1.5)
+        ||(posture()==='losing'&&Math.random()<0.7)
+        ||Math.random()<0.1;
       
       if(shouldTransfer){
         doTransfer('ai',mc);
@@ -1065,24 +1060,24 @@ function aiDefStep(){
   
   // Если боль от покрытия намного больше боли от забора - забираем
   const painDiff=totalPain-tpain;
-  if(painDiff>2.5&&Math.random()<0.9){
+  if(painDiff>3&&Math.random()<0.92){
     doTake('ai');
     return;
   }
-  if(painDiff>1.5&&Math.random()<0.5){
+  if(painDiff>2&&Math.random()<0.6){
     doTake('ai');
     return;
   }
   
   // В endgame забираем реже (карты слишком ценны)
-  if(dl===0&&painDiff<4){
+  if(dl===0&&painDiff<5){
     // Покрываем самую "дорогую" атаку самой "дешёвой" защитой
     let bi=0, bp=Infinity;
     beats.forEach((b,i)=>{
       const p=coverPain(unc[i].attack,b);
       // Учитываем ценность атакующей карты
-      const attackVal=unc[i].attack.rank+(isTrumpC(unc[i].attack)?6:0);
-      const adjusted=p-attackVal*0.4;
+      const attackVal=unc[i].attack.rank+(isTrumpC(unc[i].attack)?8:0);
+      const adjusted=p-attackVal*0.5;
       if(adjusted<bp){
         bp=adjusted;
         bi=i;
