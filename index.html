@@ -17,8 +17,6 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{background:#071b12;font-family:'Rubik','Segoe UI',system-ui,-apple-system,sans-serif;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:none}
-
-/* ---------- сукно ---------- */
 #felt{position:fixed;inset:0;z-index:0;background:radial-gradient(125% 95% at 50% 30%,#2f8f63 0%,#1e6b47 46%,#124b31 76%,#0a3522 100%)}
 #felt::before{content:'';position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;
  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.6'/></svg>")}
@@ -34,8 +32,6 @@ body{background:#071b12;font-family:'Rubik','Segoe UI',system-ui,-apple-system,s
 body.humanAtk #glowBot{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 @keyframes gp{50%{opacity:.3}}
-
-/* ---------- верхняя панель ---------- */
 #topbar{position:fixed;top:0;left:0;right:0;height:44px;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 14px;pointer-events:none;background:linear-gradient(rgba(4,16,10,.65),transparent)}
 #logo{font:900 13px 'Segoe UI','SF Pro Display',system-ui,Rubik,sans-serif;color:#f0dfae;letter-spacing:.12em;text-shadow:0 2px 4px rgba(0,0,0,.5);pointer-events:auto;white-space:nowrap}
 #logo .s1{color:#ff6b6b}#logo .s2{color:#e9e9f2}
@@ -52,14 +48,10 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 #score .sep{color:#bfe0c8}
 #score.flash{animation:scoreFlash .6s}
 @keyframes scoreFlash{30%{transform:translate(-50%,-50%) scale(1.3)}}
-
-/* ---------- стол ---------- */
 #board{position:fixed;inset:0;z-index:10;pointer-events:none}
 #cards{position:absolute;inset:0}
 #dropHint{position:absolute;left:0;top:0;z-index:9;border:2px dashed rgba(240,214,138,.4);border-radius:calc(var(--cw)*0.12);display:none;align-items:center;justify-content:center;color:rgba(240,225,180,.75);font:700 11px 'Segoe UI','SF Pro Display',system-ui;letter-spacing:.2em;animation:breathe 2s ease-in-out infinite}
 @keyframes breathe{50%{border-color:rgba(240,214,138,.75)}}
-
-/* ---------- карты ---------- */
 .card{position:absolute;left:0;top:0;width:var(--cw);height:var(--ch);opacity:0;z-index:10;pointer-events:none;perspective:700px;will-change:transform;
  transition:transform .5s cubic-bezier(.25,.9,.3,1.04),opacity .3s}
 .card.noanim{transition:none}
@@ -93,8 +85,6 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 .card.hit .front{animation:hitpulse .9s ease-in-out infinite}
 @keyframes hitpulse{50%{box-shadow:0 0 0 3px #ffd873,0 0 30px 7px rgba(255,216,115,.9)}}
 .card.tr::after{content:'⇄';position:absolute;top:-9px;right:-7px;z-index:5;width:22px;height:22px;border-radius:50%;background:#ffd873;color:#3a2b07;font:800 13px Rubik;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.4)}
-
-/* ---------- колода и бита ---------- */
 #deckStack{position:absolute;left:0;top:0;width:var(--cw);height:var(--ch);z-index:6;display:none;border-radius:calc(var(--cw)*0.11);
  background:radial-gradient(circle at 50% 45%,#8a2b3d,#55131f 78%);border:2px solid #e9d39a;
  box-shadow:2px 3px 0 -1px #f5eeda,2px 3px 0 0 #8d7f5c,5px 6px 0 -1px #f5eeda,5px 6px 0 0 #8d7f5c,8px 10px 18px rgba(0,0,0,.45)}
@@ -107,8 +97,6 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 .red-t{color:#ff6b6b}.blk-t{color:#e9e9f2}
 #bitaWrap{position:absolute;left:0;top:0;width:var(--cw);height:var(--ch);z-index:6}
 #bitaBadge{position:absolute;right:-9px;bottom:-9px;min-width:26px;height:26px;padding:0 6px;border-radius:13px;background:linear-gradient(#bcd9c3,#7fa98c);color:#12301f;font:800 13px Rubik;display:none;align-items:center;justify-content:center;box-shadow:0 3px 6px rgba(0,0,0,.4)}
-
-/* ---------- консоль ---------- */
 #console{position:fixed;left:0;right:0;z-index:40;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
 #msg{min-height:32px;display:flex;align-items:center;justify-content:center;font:600 clamp(12px,2.9vw,15px) 'Segoe UI','SF Pro Display',system-ui,Rubik,sans-serif;color:#f6ecc9;background:rgba(6,24,15,.55);border:1px solid rgba(240,215,140,.3);padding:7px 18px;border-radius:999px;letter-spacing:.04em;text-shadow:0 1px 3px rgba(0,0,0,.5);max-width:92vw;text-align:center}
 #btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
@@ -117,11 +105,10 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 #takeBtn{background:linear-gradient(#e2604f,#a72c23);color:#fff3ea;box-shadow:0 5px 0 #66150f,0 9px 16px rgba(0,0,0,.35)}
 #trBtn{background:linear-gradient(#8fdcb2,#3f9e6f);color:#0c2e1d;box-shadow:0 5px 0 #23603f,0 9px 16px rgba(0,0,0,.35)}
 #beatBtn{background:linear-gradient(#8ec7ea,#2f7fae);color:#06222f;box-shadow:0 5px 0 #1d5577,0 9px 16px rgba(0,0,0,.35)}
+#doneBtn{background:linear-gradient(#f4dc94,#cf9f42);color:#3c2a06;box-shadow:0 5px 0 #8a6420,0 9px 16px rgba(0,0,0,.35)}
 #btns button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
 #toast{position:fixed;top:54px;left:50%;transform:translateX(-50%) translateY(-8px);z-index:70;font:800 clamp(14px,3.6vw,20px) 'Segoe UI','SF Pro Display',system-ui,Rubik,sans-serif;color:#ffd873;text-shadow:0 2px 8px rgba(0,0,0,.65);opacity:0;transition:.25s;pointer-events:none;letter-spacing:.06em;white-space:nowrap}
 #toast.in{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ---------- оверлеы ---------- */
 .ov{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(4,14,9,.8);opacity:0;pointer-events:none;transition:.35s;padding:18px}
 .ov.show{opacity:1;pointer-events:auto}
 .ovbox{position:relative;background:linear-gradient(170deg,#10422d,#0a2b1d);border:2px solid rgba(240,214,138,.5);border-radius:20px;padding:30px 26px;max-width:min(440px,94vw);max-height:92vh;overflow:auto;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:translateY(16px) scale(.96);transition:.35s}
@@ -181,6 +168,7 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
     <button id="takeBtn" style="display:none">БЕРУ</button>
     <button id="beatBtn" style="display:none">ПОБИТЬ</button>
     <button id="trBtn" style="display:none">ПЕРЕВЕСТИ ⇄</button>
+    <button id="doneBtn" style="display:none">ГОТОВО ✓</button>
   </div>
 </div>
 
@@ -199,6 +187,7 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
       <li>Бейте старшей картой той же масти или козырем</li>
       <li>Подкидывайте карты тех достоинств, что уже на столе</li>
       <li>Переводите атаку картой того же достоинства — туда-сюда, пока никто не начал отбиваться</li>
+      <li>Если противник берёт — подкиньте «в придачу» карты тех же достоинств</li>
       <li>Победитель ходит первым, его первый ход нельзя переводить (дурака учат). «Последняя рука — хуже дурака!»</li>
     </ul>
     <button class="bigbtn" id="playBtn">ИГРАТЬ</button>
@@ -213,7 +202,8 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
       <li>Победитель партии ходит первым («ходят под дурака»). На первом ходу новой партии отбивающийся не может переводить — дурака учат; со второго хода переводы разрешены. В первой партии перевод работает сразу.</li>
       <li>Отбиваться нужно старшей картой той же масти или козырем; козырь бьётся только старшим козырем.</li>
       <li>Подкидывать можно карты тех достоинств, что уже есть на столе — не более 6 карт за бой и не больше, чем карт у отбивающегося.</li>
-      <li>Перевод: отбивающийся кладёт карту того же достоинства — вся атака переходит к сопернику. Переводить можно, только пока никто не начал отбиваться, и несколько раз подряд (туда-сюда). Если картой можно и отбиться, и перевести — кнопки «Побить» и «Перевести» (или тап по подсвеченной атакующей карте для точного отбоя).</li>
+      <li>Перевод: отбивающийся кладёт карту того же достоинства — вся атака переходит к сопернику. Переводить можно, только пока никто не начал отбиваться, и несколько раз подряд (туда-сюда).</li>
+      <li>«В придачу»: если отбивающийся не смог отбиться и берёт карты, атакующий может подкинуть ещё карты тех же достоинств — но не больше, чем у отбивающегося было карт в начале боя (максимум 6).</li>
       <li>Не отбился — забираешь все карты со стола. Отбился — карты уходят в биту, и отбивавшийся атакует.</li>
       <li>После боя добирают карты до шести: первым берёт атакующий, последним — тот, кто отбивался.</li>
       <li>«Последняя рука — хуже дурака»: если к концу боя оба игрока остались без карт и колода пуста, проигрывает тот, кто отбивался последним.</li>
@@ -234,7 +224,6 @@ body.aiAtk #glowTop{opacity:.9;animation:gp 1.8s ease-in-out infinite}
 
 <script>
 'use strict';
-/* ================= базовые вещи ================= */
 const $=s=>document.querySelector(s);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const raf2=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
@@ -247,7 +236,6 @@ const M={w:0,h:0,cw:80,ch:114,hdr:46};
 let G=null, AI_T=null, muted=false, toastT=null;
 const CARDS=new Map();
 
-/* ---- счёт партий, первый ход и «дурака учат» ---- */
 let SCORE={h:0,a:0};
 try{const s=JSON.parse(localStorage.getItem('durakScore'));if(s&&typeof s.h==='number'&&typeof s.a==='number')SCORE=s;}catch(e){}
 function saveScore(){try{localStorage.setItem('durakScore',JSON.stringify(SCORE));}catch(e){}}
@@ -260,7 +248,6 @@ function updateScore(flash){
   if(flash){const el=$('#score');el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}
 }
 
-/* ================= звук (WebAudio-синтез) ================= */
 let AC=null;
 function resumeAudio(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC&&AC.state==='suspended')AC.resume();}catch(e){}}
 function tone(f,d,type,g,dl){
@@ -286,7 +273,6 @@ function snd(n){
   }
 }
 
-/* ================= геометрия ================= */
 function measure(){
   M.w=innerWidth;M.h=innerHeight;M.hdr=46;
   const raw=Math.min(M.w*0.16,M.h*0.145);
@@ -360,11 +346,8 @@ function updateDeckUI(){
   if(t){
     const dp=deckPos();
     t.el.style.opacity=1;
-    if(narrow()){
-      place(t, dp.x+(M.ch-M.cw)/2, dp.y+M.ch+6, 90, true, 4);
-    }else{
-      place(t, dp.x + M.cw*0.5, dp.y, 90, true, 4);
-    }
+    if(narrow())place(t,dp.x+(M.ch-M.cw)/2,dp.y+M.ch+6,90,true,4);
+    else place(t,dp.x+M.cw*0.5,dp.y,90,true,4);
   }
 }
 function updateBitaUI(){
@@ -375,7 +358,7 @@ function updateBitaUI(){
 function placeChips(){
   const dp=deckPos(),bp=bitaPos();
   $('#deckStack').style.transform='translate('+dp.x+'px,'+dp.y+'px)';
-  const tagY=narrow()? dp.y+M.ch+M.cw+30 : dp.y+M.ch+16;
+  const tagY=narrow()?dp.y+M.ch+M.cw+30:dp.y+M.ch+16;
   $('#trumpTag').style.transform='translate('+dp.x+'px,'+tagY+'px)';
   $('#bitaWrap').style.transform='translate('+bp.x+'px,'+bp.y+'px)';
 }
@@ -388,7 +371,6 @@ function layoutAll(){
   dh.style.transform='translate('+((M.w-M.cw)/2)+'px,'+tableY()+'px)';
 }
 
-/* ================= правила ================= */
 function canBeat(a,d){
   if(d.suit===a.suit)return d.rank>a.rank;
   return d.suit===G.trump&&a.suit!==G.trump;
@@ -413,7 +395,6 @@ function sortHand(side){
 }
 function removeHand(side,c){const h=G[side].hand,i=h.indexOf(c);if(i>=0)h.splice(i,1);handLayout(side);}
 
-/* ================= новая игра и раздача ================= */
 function makeCardEl(c){
   const el=document.createElement('div');
   el.className='card '+(isRedS(c.suit)?'red':'black');
@@ -430,7 +411,8 @@ function newGame(){
   clearTimeout(AI_T);
   const seq=(G&&G.seq||0)+1;
   G={seq,deck:[],bita:[],table:[],trump:0,human:{hand:[]},ai:{hand:[]},attacker:'human',defender:'ai',
-     phase:'idle',over:false,busy:false,throws:0,sel:null,selTargets:null,firstBout:true,teachDurak:false};
+     phase:'idle',over:false,busy:false,throws:0,sel:null,selTargets:null,firstBout:true,teachDurak:false,
+     taker:null,defHandAtBoutStart:6};
   CARDS.clear();
   document.querySelectorAll('#cards .card').forEach(e=>e.remove());
   let id=0;
@@ -465,11 +447,10 @@ async function deal(){
     }
   }
   if(seq!==G.seq)return;
-  let first=NEXT_FIRST, why;
+  let first=NEXT_FIRST,why;
   if(first){
     G.teachDurak=true;
-    why=(first==='human'?'Вы выиграли прошлую партию и ходите первым':'Компьютер выиграл прошлую партию и ходит первым')
-        +'. Первый ход без переводов';
+    why=(first==='human'?'Вы выиграли прошлую партию и ходите первым':'Компьютер выиграл прошлую партию и ходит первым')+'. Первый ход без переводов';
   }else{
     G.teachDurak=false;
     let best=99;
@@ -480,11 +461,11 @@ async function deal(){
   G.firstBout=true;
   G.attacker=first;G.defender=first==='human'?'ai':'human';
   G.phase='attack';
+  G.defHandAtBoutStart=G[G.defender].hand.length;
   toast(why);
   poke();
 }
 
-/* ================= ходы ================= */
 function doAttack(side,c){
   removeHand(side,c);
   G.table.push({attack:c,defense:null});
@@ -500,14 +481,34 @@ function doTransfer(side,c){
   removeHand(side,c);
   G.table.push({attack:c,defense:null});
   const t=G.attacker;G.attacker=G.defender;G.defender=t;
+  G.defHandAtBoutStart=G[G.defender].hand.length;
   clearSel();toast('Перевод!');snd('transfer');
   tableLayout();poke();
 }
-async function doTake(side){
+
+/* === «В ПРИДАЧУ»: защитник берёт → фаза докидывания === */
+function doTake(side){
   if(G.busy||side!==G.defender||!G.table.length)return;
+  G.phase='taking';
+  G.taker=side;
+  snd('take');
+  if(side==='human')toast('Вы берёте — компьютер подкидывает...');
+  else toast('Компьютер берёт — подкиньте ещё!');
+  poke();
+}
+
+/* Лимит «в придачу»: не больше min(6, изначальных карт защитника) */
+function canExtraThrow(){
+  const limit=Math.min(6,G.defHandAtBoutStart||6);
+  return G.table.length<limit;
+}
+
+/* Реальный забор карт после докидывания */
+async function executeTake(){
+  if(G.busy||G.phase!=='taking')return;
   G.busy=true;const seq=G.seq;
+  const side=G.taker;
   clearSel();
-  toast(side==='human'?'Вы забираете карты':'Компьютер забирает');snd('take');
   const cards=[];
   G.table.forEach(p=>{cards.push(p.attack);if(p.defense)cards.push(p.defense);});
   G.table=[];
@@ -519,8 +520,46 @@ async function doTake(side){
   if(seq!==G.seq)return;
   sortHand(side);handLayout(side);
   await sleep(320);if(seq!==G.seq)return;
-  G.busy=false;endBout(true);
+  G.busy=false;
+  G.phase='attack';
+  G.taker=null;
+  endBout(true);
 }
+
+/* ИИ докидывает «в придачу» */
+function aiExtraThrow(){
+  if(!G||G.phase!=='taking'||G.busy)return;
+  const ranks=tableRanks();
+  const cand=G.ai.hand.filter(c=>ranks.has(c.rank));
+
+  if(!cand.length||!canExtraThrow()){
+    executeTake();
+    return;
+  }
+
+  let bestPick=null,bestScore=-Infinity;
+  for(const c of cand){
+    let score=0;
+    if(isTrumpC(c)){
+      if(c.rank<=7&&countTrumps(G.ai.hand)>=4)score+=15;
+      else continue;
+    }else{
+      score+=(14-c.rank)*2;
+      if(c.rank>=13)score+=12;
+      if(c.rank>=14)score+=18;
+      const sameRank=G.ai.hand.filter(x=>x.rank===c.rank&&x!==c).length;
+      if(sameRank>0)score+=5;
+    }
+    if(score>bestScore){bestScore=score;bestPick=c;}
+  }
+
+  if(bestPick&&bestScore>0){
+    doAttack('ai',bestPick);
+  }else{
+    executeTake();
+  }
+}
+
 async function doBito(){
   if(G.busy||!G.table.length)return;
   G.busy=true;const seq=G.seq;
@@ -549,7 +588,9 @@ async function endBout(took){
   if(!took){const t=G.attacker;G.attacker=G.defender;G.defender=t;}
   G.firstBout=false;
   if(checkEnd(lastDefender))return;
-  G.phase='attack';poke();
+  G.phase='attack';
+  G.defHandAtBoutStart=G[G.defender].hand.length;
+  poke();
 }
 async function replenish(seq){
   for(const side of [G.attacker,G.defender]){
@@ -569,10 +610,7 @@ async function replenish(seq){
 function checkEnd(lastDefender){
   if(G.deck.length)return false;
   const h=G.human.hand.length,a=G.ai.hand.length;
-  if(!h&&!a){
-    over(lastDefender==='human'?'ai':'human',{lastHand:true});
-    return true;
-  }
+  if(!h&&!a){over(lastDefender==='human'?'ai':'human',{lastHand:true});return true;}
   if(!h){over('human');return true;}
   if(!a){over('ai');return true;}
   return false;
@@ -586,7 +624,7 @@ function over(w,opts){
   refreshUI();setTimeout(()=>showEnd(),700);
 }
 
-/* ================= ИИ: АТАКА С УЧЁТОМ РИСКОВ ================= */
+/* ================= ИИ ================= */
 function hiddenCards(){
   const known=new Set();
   G.bita.forEach(c=>known.add(c));
@@ -598,12 +636,11 @@ const isTrumpC=c=>c.suit===G.trump;
 const countTrumps=h=>h.filter(isTrumpC).length;
 
 function advantage(){
-  const dl=G.deck.length, my=G.ai.hand.length, his=G.human.hand.length;
-  const hid=hiddenCards(), hidTr=hid.filter(isTrumpC);
+  const dl=G.deck.length,my=G.ai.hand.length,his=G.human.hand.length;
+  const hid=hiddenCards(),hidTr=hid.filter(isTrumpC);
   const myTr=countTrumps(G.ai.hand);
   const myHighTr=G.ai.hand.filter(c=>isTrumpC(c)&&c.rank>=12).length;
   const hisHighTrEst=dl===0?hidTr.filter(c=>c.rank>=12).length:(hid.length?hidTr.filter(c=>c.rank>=12).length*his/hid.length:0);
-  
   let s=(his-my)*(dl===0?5:1.5);
   const expHisTr=dl===0?hidTr.length:(hid.length?hidTr.length*his/hid.length:0);
   s+=(myTr-expHisTr)*2.0;
@@ -611,15 +648,13 @@ function advantage(){
   const myHighNonTr=G.ai.hand.filter(c=>!isTrumpC(c)&&c.rank>=13).length;
   const hisHighNonTrEst=dl===0?hid.filter(c=>!isTrumpC(c)&&c.rank>=13).length:(hid.length?hid.filter(c=>!isTrumpC(c)&&c.rank>=13).length*his/hid.length:0);
   s+=(myHighNonTr-hisHighNonTrEst)*1.2;
-  
   return s;
 }
 function posture(){const a=advantage();return a>=3?'winning':(a<=-3?'losing':'even');}
 
 function coverPain(a,c){
-  const post=posture(), dl=G.deck.length;
+  const post=posture(),dl=G.deck.length;
   const myTr=countTrumps(G.ai.hand);
-  
   if(isTrumpC(c)&&!isTrumpC(a)){
     if(dl===0)return c.rank>=13?2.5:(c.rank>=11?1.8:1.0);
     let p=(c.rank-5)*1.5;
@@ -629,14 +664,12 @@ function coverPain(a,c){
     if(post==='losing'&&dl<=8)p*=0.7;
     return p;
   }
-  
   let p=(c.rank-5)*0.5;
   if(c.rank>=14)p+=8;
   else if(c.rank>=13)p+=6;
   else if(c.rank>=12)p+=3;
   else if(c.rank>=11)p+=1.5;
   if(dl===0&&c.rank>=13)p+=4;
-  
   return p;
 }
 
@@ -644,14 +677,9 @@ function takePain(n){
   const dl=G.deck.length;
   const myHand=G.ai.hand.length;
   let p=n*1.8+2;
-  if(dl===0){
-    p+=12+n*3.5;
-    if(myHand<=2)p+=6;
-  }else if(dl<=6){
-    p+=6+n*2;
-  }else if(dl<=12){
-    p+=3+n*0.8;
-  }
+  if(dl===0){p+=12+n*3.5;if(myHand<=2)p+=6;}
+  else if(dl<=6)p+=6+n*2;
+  else if(dl<=12)p+=3+n*0.8;
   if(G.human.hand.length<=2&&dl>0)p+=5;
   if(posture()==='winning')p+=2.5;
   if(posture()==='losing')p-=1.5;
@@ -663,17 +691,12 @@ function opponentCanBeat(card){
   const oppCount=G.human.hand.length;
   if(hidden.length===0||oppCount===0)return{canBeat:false,prob:0,beaters:[]};
   const beaters=hidden.filter(x=>canBeat(card,x));
-  const prob=beaters.length/hidden.length;
-  return{
-    canBeat:beaters.length>0,
-    prob:prob,
-    expectedBeaters:beaters.length*oppCount/hidden.length,
-    beaters:beaters
-  };
+  return{canBeat:beaters.length>0,prob:beaters.length/hidden.length,
+    expectedBeaters:beaters.length*oppCount/hidden.length,beaters};
 }
 
 function bestCover(a,hand){
-  let best=null, bp=1e9;
+  let best=null,bp=1e9;
   for(const c of hand){
     if(!canBeat(a,c))continue;
     const p=coverPain(a,c);
@@ -684,437 +707,204 @@ function bestCover(a,hand){
 function pickMatch(ranks){
   const m=G.ai.hand.filter(c=>ranks.has(c.rank));
   if(!m.length)return null;
-  m.sort((a,b)=>{
-    const apain=coverPain({suit:-1,rank:0},a);
-    const bpain=coverPain({suit:-1,rank:0},b);
-    return apain-bpain;
-  });
+  m.sort((a,b)=>coverPain({suit:-1,rank:0},a)-coverPain({suit:-1,rank:0},b));
   const c=m[0];
   if(isTrumpC(c)&&c.rank>=13)return null;
   return c;
 }
 
-/* АТАКА — ходим со слабых карт */
 function aiFirst(){
-  const h=G.ai.hand, dl=G.deck.length;
-  const post=posture();
-  
+  const h=G.ai.hand,dl=G.deck.length;
   if(dl===0)return aiEndgameAttack();
-  
   const nonTrumps=h.filter(c=>!isTrumpC(c)).sort((a,b)=>a.rank-b.rank);
   const trumps=h.filter(isTrumpC).sort((a,b)=>a.rank-b.rank);
-  
   const byRank={};
-  nonTrumps.forEach(c=>{
-    if(!byRank[c.rank])byRank[c.rank]=[];
-    byRank[c.rank].push(c);
-  });
-  
+  nonTrumps.forEach(c=>{if(!byRank[c.rank])byRank[c.rank]=[];byRank[c.rank].push(c);});
   const pairs=Object.entries(byRank).filter(([r,arr])=>arr.length>=2);
-  
-  let pick=null;
-  let bestScore=-Infinity;
-  
+  let pick=null,bestScore=-Infinity;
   if(pairs.length>0){
     pairs.sort((a,b)=>+a[0]-+b[0]);
-    pick=pairs[0][1][0];
-    bestScore=30-pairs[0][1][0].rank;
+    pick=pairs[0][1][0];bestScore=30-pairs[0][1][0].rank;
   }
-  
   for(const c of nonTrumps){
     let score=0;
     score+=(14-c.rank)*2;
-    
-    if(c.rank>=14)score-=15;
-    else if(c.rank>=13)score-=12;
-    else if(c.rank>=12)score-=6;
-    else if(c.rank>=11)score-=3;
-    
+    if(c.rank>=14)score-=15;else if(c.rank>=13)score-=12;
+    else if(c.rank>=12)score-=6;else if(c.rank>=11)score-=3;
     const sameRank=h.filter(x=>x.rank===c.rank&&x!==c).length;
     if(sameRank>0)score+=10;
-    
     const oppInfo=opponentCanBeat(c);
     if(oppInfo.expectedBeaters<0.2)score+=6;
     else if(oppInfo.expectedBeaters<0.8)score+=3;
     else score-=oppInfo.expectedBeaters*2;
-    
-    if(post==='winning')score+=2;
-    if(post==='losing'&&c.rank>=12)score-=3;
-    
-    if(score>bestScore){
-      bestScore=score;
-      pick=c;
-    }
+    if(posture()==='winning')score+=2;
+    if(score>bestScore){bestScore=score;pick=c;}
   }
-  
   if(!pick&&trumps.length>0){
     if(trumps.length>=3&&trumps[0].rank<=8)pick=trumps[0];
     else if(nonTrumps.length===0)pick=trumps[0];
     else pick=nonTrumps[0];
   }
-  
   if(pick&&isTrumpC(pick)&&nonTrumps.length>0){
     if(!(pick.rank<=7&&countTrumps(h)>=4))pick=nonTrumps[0];
   }
-  
   doAttack('ai',pick);
 }
 
 function aiEndgameAttack(){
-  const h=G.ai.hand;
-  const oppCount=G.human.hand.length;
-  const hidden=hiddenCards();
-  
-  if(h.length===1){
-    doAttack('ai',h[0]);
-    return;
-  }
-  
-  let bestCard=null;
-  let bestScore=-Infinity;
-  
+  const h=G.ai.hand,oppCount=G.human.hand.length,hidden=hiddenCards();
+  if(h.length===1){doAttack('ai',h[0]);return;}
+  let bestCard=null,bestScore=-Infinity;
   for(const c of h){
     let score=0;
     const beaters=hidden.filter(x=>canBeat(c,x));
     const beatProb=oppCount>0?beaters.length/hidden.length:0;
-    
     if(beaters.length===0)score+=100;
-    else{
-      score-=beatProb*60;
-      if(beatProb>0.5)score-=40;
-    }
-    
+    else{score-=beatProb*60;if(beatProb>0.5)score-=40;}
     const nonTrumps=h.filter(x=>!isTrumpC(x));
     if(isTrumpC(c)&&nonTrumps.length>0)score-=50;
-    
     score+=(14-c.rank)*3;
-    
-    if(c.rank>=14)score-=20;
-    else if(c.rank>=13)score-=15;
-    else if(c.rank>=12)score-=8;
-    
+    if(c.rank>=14)score-=20;else if(c.rank>=13)score-=15;else if(c.rank>=12)score-=8;
     const sameRank=h.filter(x=>x.rank===c.rank&&x!==c);
-    if(sameRank.length>0){
-      score+=20;
-      if(c.rank<=sameRank[0].rank)score+=8;
-    }
-    
-    if(oppCount===1){
-      if(beaters.length===0)score+=250;
-      else score-=150;
-    }
-    
-    if(score>bestScore){
-      bestScore=score;
-      bestCard=c;
-    }
+    if(sameRank.length>0){score+=20;if(c.rank<=sameRank[0].rank)score+=8;}
+    if(oppCount===1){if(beaters.length===0)score+=250;else score-=150;}
+    if(score>bestScore){bestScore=score;bestCard=c;}
   }
-  
   doAttack('ai',bestCard);
 }
 
-/* === УМНОЕ ПОДКИДЫВАНИЕ === */
-/* Теперь высокие карты — это оружие, но используем с умом! */
 function aiMore(){
-  const ranks=tableRanks(), dl=G.deck.length, his=G.human.hand.length, post=posture();
+  const ranks=tableRanks(),dl=G.deck.length,his=G.human.hand.length,post=posture();
   const cand=G.ai.hand.filter(c=>ranks.has(c.rank));
-  
-  if(!cand.length||!canThrow()){
-    doBito();
-    return;
-  }
-  
+  if(!cand.length||!canThrow()){doBito();return;}
   if(dl===0)return aiEndgameMore(cand);
-  
   const hidden=hiddenCards();
   const myTr=countTrumps(G.ai.hand);
-  // Оценка: сколько козырей у противника?
   const oppTrumpEst=hidden.length>0?hidden.filter(isTrumpC).length*his/hidden.length:0;
   const uncov=uncovered().length;
-  
-  let bestPick=null;
-  let bestScore=-Infinity;
-  
+  let bestPick=null,bestScore=-Infinity;
   for(const c of cand){
     let score=0;
-    
-    // Козыри — подкидываем ТОЛЬКО в крайних случаях
     if(isTrumpC(c)){
       if(c.rank<=7&&myTr>=4)score+=15;
       else if(c.rank<=8&&myTr>=5)score+=10;
       else continue;
     }else{
-      // === НЕКОЗЫРНЫЕ КАРТЫ ===
-      
-      // 1. Оценка атакующей силы: может ли противник отбиться?
       const oppBeaters=hidden.filter(x=>canBeat(c,x));
       const beatProb=hidden.length>0?oppBeaters.length/hidden.length:0;
-      // Может ли отбиться БЕЗ козыря?
       const canBeatEasily=oppBeaters.filter(x=>!isTrumpC(x)).length;
-      // Вынужден ли тратить козырь?
       const needTrumpBeat=oppBeaters.length>0&&canBeatEasily===0;
-      
-      // --- ТУЗ: мощное оружие! ---
       if(c.rank===14){
-        if(beatProb<0.1){
-          score+=30; // Противник почти точно не отобьётся — ДАВИМ!
-        }else if(beatProb<0.3){
-          score+=18;
-        }else if(beatProb<0.5){
-          score+=8;
-        }else{
-          score-=10; // Легко отобьётся — не стоит
-        }
-        
-        // Заставляем тратить козырь!
+        if(beatProb<0.1)score+=30;else if(beatProb<0.3)score+=18;
+        else if(beatProb<0.5)score+=8;else score-=10;
         if(needTrumpBeat)score+=15;
-        
-        // Если у противника мало козырей — он не отобьётся!
-        if(oppTrumpEst<0.5)score+=15;
-        else if(oppTrumpEst<1.5)score+=8;
-      }
-      // --- КОРОЛЬ ---
-      else if(c.rank===13){
-        if(beatProb<0.15)score+=22;
-        else if(beatProb<0.35)score+=12;
-        else if(beatProb<0.5)score+=4;
-        else score-=8;
-        
+        if(oppTrumpEst<0.5)score+=15;else if(oppTrumpEst<1.5)score+=8;
+      }else if(c.rank===13){
+        if(beatProb<0.15)score+=22;else if(beatProb<0.35)score+=12;
+        else if(beatProb<0.5)score+=4;else score-=8;
         if(needTrumpBeat)score+=10;
         if(oppTrumpEst<0.5)score+=10;
-      }
-      // --- ДАМА, ВАЛЕТ ---
-      else if(c.rank>=11){
-        if(beatProb<0.2)score+=12;
-        else if(beatProb<0.4)score+=5;
-        else score-=5;
-        
+      }else if(c.rank>=11){
+        if(beatProb<0.2)score+=12;else if(beatProb<0.4)score+=5;else score-=5;
         if(needTrumpBeat)score+=5;
-      }
-      // --- Слабые карты (6-10): безопасное подкидывание ---
-      else{
-        score+=8;
-        if(c.rank<=7)score+=3;
+      }else{
+        score+=8;if(c.rank<=7)score+=3;
         if(beatProb>0.5)score-=3;
       }
-      
-      // 2. Контекст позиции
-      
-      // ДОБИВАНИЕ: у противника мало карт!
       if(his<=2){
-        if(c.rank>=11)score+=18;
-        if(c.rank>=13)score+=12;
-        if(beatProb<0.2)score+=25; // Почти точно завалим!
-        if(beatProb<0.05)score+=20; // ТОЧНО завалим!
+        if(c.rank>=11)score+=18;if(c.rank>=13)score+=12;
+        if(beatProb<0.2)score+=25;if(beatProb<0.05)score+=20;
       }else if(his<=3){
-        if(c.rank>=12)score+=10;
-        if(c.rank>=13)score+=5;
+        if(c.rank>=12)score+=10;if(c.rank>=13)score+=5;
       }
-      
-      // Если на столе уже много непокрытых карт — противник в беде!
-      if(uncov>=4){
-        if(c.rank>=11)score+=12;
-        if(c.rank>=13)score+=8;
-      }
-      if(uncov>=5){
-        if(c.rank>=11)score+=18;
-        if(c.rank>=13)score+=12;
-      }
-      
-      // Если у противника МАЛО козырей — он не отобьётся!
-      if(oppTrumpEst<0.3){
-        if(c.rank>=13)score+=15;
-        else if(c.rank>=11)score+=8;
-      }
-      
-      // 3. Наши собственные запасы
-      
-      // Если у нас НЕТ козырей — бережём Тузов для защиты!
+      if(uncov>=4){if(c.rank>=11)score+=12;if(c.rank>=13)score+=8;}
+      if(uncov>=5){if(c.rank>=11)score+=18;if(c.rank>=13)score+=12;}
+      if(oppTrumpEst<0.3){if(c.rank>=13)score+=15;else if(c.rank>=11)score+=8;}
       if(myTr===0&&c.rank>=13&&dl>6)score-=12;
       if(myTr<=1&&c.rank===14&&dl>10)score-=8;
-      
-      // Если козырей много — можем рисковать высокими
       if(myTr>=3&&c.rank>=13)score+=5;
-      
-      // 4. Позиционные корректировки
-      if(post==='losing'){
-        score+=10; // В проигрыше — рискуем больше!
-        if(c.rank>=13)score+=5;
-      }
-      if(post==='winning'&&c.rank>=12&&beatProb>0.3)score-=8; // В выигрыше — осторожнее
-      
-      // Ограничение на количество подкидываний
+      if(post==='losing'){score+=10;if(c.rank>=13)score+=5;}
+      if(post==='winning'&&c.rank>=12&&beatProb>0.3)score-=8;
       if(G.throws>=4)score-=15;
       if(his<=2&&G.throws>=2)score-=10;
       if(G.throws>=5)score-=30;
     }
-    
-    if(score>bestScore){
-      bestScore=score;
-      bestPick=c;
-    }
+    if(score>bestScore){bestScore=score;bestPick=c;}
   }
-  
-  // Подкидываем если оценка достаточно хорошая
-  if(bestPick&&bestScore>8){
-    G.throws++;
-    doAttack('ai',bestPick);
-  }else{
-    doBito();
-  }
+  if(bestPick&&bestScore>8){G.throws++;doAttack('ai',bestPick);}
+  else doBito();
 }
 
-/* === ENDGAME ПОДКИДЫВАНИЕ (ещё агрессивнее!) === */
 function aiEndgameMore(cand){
-  const hidden=hiddenCards();
-  const oppCount=G.human.hand.length;
-  const uncov=uncovered().length;
-  const myTr=countTrumps(G.ai.hand);
-  
-  let bestPick=null;
-  let bestScore=-Infinity;
-  
+  const hidden=hiddenCards(),oppCount=G.human.hand.length,uncov=uncovered().length;
+  let bestPick=null,bestScore=-Infinity;
   for(const c of cand){
     let score=0;
-    
-    // Козыри не подкидываем
     if(isTrumpC(c))continue;
-    
     const beaters=hidden.filter(x=>canBeat(c,x));
     const beatProb=hidden.length>0?beaters.length/hidden.length:0;
     const canBeatEasily=beaters.filter(x=>!isTrumpC(x)).length;
-    const needTrumpBeat=beaters.length>0&&canBeatEasily===0;
-    
-    // В эндшпиле высокие карты — МОЩНОЕ ОРУЖИЕ!
-    
-    // Туз
     if(c.rank===14){
-      if(beatProb<0.1)score+=40; // Точно не отобьётся!
-      else if(beatProb<0.3)score+=25;
-      else if(beatProb<0.5)score+=12;
-      else score-=5;
-      
-      if(canBeatEasily===0)score+=20; // Только козырем отобьётся!
-    }
-    // Король
-    else if(c.rank===13){
-      if(beatProb<0.15)score+=30;
-      else if(beatProb<0.35)score+=18;
-      else if(beatProb<0.5)score+=8;
-      else score-=5;
-      
+      if(beatProb<0.1)score+=40;else if(beatProb<0.3)score+=25;
+      else if(beatProb<0.5)score+=12;else score-=5;
+      if(canBeatEasily===0)score+=20;
+    }else if(c.rank===13){
+      if(beatProb<0.15)score+=30;else if(beatProb<0.35)score+=18;
+      else if(beatProb<0.5)score+=8;else score-=5;
       if(canBeatEasily===0)score+=15;
-    }
-    // Дама, Валет
-    else if(c.rank>=11){
-      if(beatProb<0.2)score+=18;
-      else if(beatProb<0.4)score+=8;
-      else score-=3;
-    }
-    // Слабые
-    else{
-      score+=5;
-      if(c.rank<=7)score+=2;
+    }else if(c.rank>=11){
+      if(beatProb<0.2)score+=18;else if(beatProb<0.4)score+=8;else score-=3;
+    }else{
+      score+=5;if(c.rank<=7)score+=2;
       if(beatProb>0.5)score-=5;
     }
-    
-    // ДОБИВАНИЕ в эндшпиле — КРИТИЧНО!
     if(oppCount<=2&&c.rank>=11)score+=20;
-    if(oppCount===1){
-      if(beatProb<0.1)score+=50; // ПОБЕДА!
-      else score-=30;
-    }
-    
-    // Если много непокрытых — добиваем!
+    if(oppCount===1){if(beatProb<0.1)score+=50;else score-=30;}
     if(uncov>=4&&c.rank>=11)score+=15;
     if(uncov>=5&&c.rank>=12)score+=20;
-    
-    if(score>bestScore){
-      bestScore=score;
-      bestPick=c;
-    }
+    if(score>bestScore){bestScore=score;bestPick=c;}
   }
-  
-  if(bestPick&&bestScore>10){
-    G.throws++;
-    doAttack('ai',bestPick);
-  }else{
-    doBito();
-  }
+  if(bestPick&&bestScore>10){G.throws++;doAttack('ai',bestPick);}
+  else doBito();
 }
 
-/* Защита */
 function aiDefStep(){
-  const unc=uncovered();
-  if(!unc.length)return;
-  
-  const dl=G.deck.length;
-  const myHand=G.ai.hand;
-  
+  const unc=uncovered();if(!unc.length)return;
+  const dl=G.deck.length,myHand=G.ai.hand;
   const beats=unc.map(p=>bestCover(p.attack,myHand));
   const anyMissing=beats.some(b=>!b);
-  
   let totalPain=0;
-  beats.forEach((b,i)=>{
-    if(b)totalPain+=coverPain(unc[i].attack,b);
-  });
-  
+  beats.forEach((b,i)=>{if(b)totalPain+=coverPain(unc[i].attack,b);});
   const tpain=takePain(G.table.length);
-  
   if(transferOK()){
     const mc=pickMatch(attackRanks());
     if(mc){
-      const shouldTransfer=anyMissing
-        ||totalPain>tpain+3
+      const shouldTransfer=anyMissing||totalPain>tpain+3
         ||(dl===0&&totalPain>5)
         ||(G.table.length>=3&&totalPain>tpain+1.5)
         ||(posture()==='losing'&&Math.random()<0.7)
         ||Math.random()<0.1;
-      
-      if(shouldTransfer){
-        doTransfer('ai',mc);
-        return;
-      }
+      if(shouldTransfer){doTransfer('ai',mc);return;}
     }
   }
-  
-  if(anyMissing){
-    doTake('ai');
-    return;
-  }
-  
+  if(anyMissing){doTake('ai');return;}
   const painDiff=totalPain-tpain;
-  if(painDiff>3&&Math.random()<0.92){
-    doTake('ai');
-    return;
-  }
-  if(painDiff>2&&Math.random()<0.6){
-    doTake('ai');
-    return;
-  }
-  
+  if(painDiff>3&&Math.random()<0.92){doTake('ai');return;}
+  if(painDiff>2&&Math.random()<0.6){doTake('ai');return;}
   if(dl===0&&painDiff<5){
-    let bi=0, bp=Infinity;
+    let bi=0,bp=Infinity;
     beats.forEach((b,i)=>{
       const p=coverPain(unc[i].attack,b);
       const attackVal=unc[i].attack.rank+(isTrumpC(unc[i].attack)?8:0);
       const adjusted=p-attackVal*0.5;
-      if(adjusted<bp){
-        bp=adjusted;
-        bi=i;
-      }
+      if(adjusted<bp){bp=adjusted;bi=i;}
     });
-    doDefend(unc[bi],beats[bi]);
-    return;
+    doDefend(unc[bi],beats[bi]);return;
   }
-  
-  let bi=0, bp=Infinity;
+  let bi=0,bp=Infinity;
   beats.forEach((b,i)=>{
     const p=coverPain(unc[i].attack,b);
-    if(p<bp){
-      bp=p;
-      bi=i;
-    }
+    if(p<bp){bp=p;bi=i;}
   });
   doDefend(unc[bi],beats[bi]);
 }
@@ -1123,6 +913,17 @@ function poke(){
   refreshUI();
   if(!G||G.over||G.phase==='deal')return;
   clearTimeout(AI_T);
+
+  /* Фаза «в придачу»: ИИ-атакующий докидывает */
+  if(G.phase==='taking'){
+    if(G.attacker==='ai'&&!G.busy){
+      AI_T=setTimeout(()=>{
+        if(G&&G.phase==='taking'&&!G.busy)aiExtraThrow();
+      },500+rnd(500));
+    }
+    return;
+  }
+
   const needAI=
     (G.attacker==='ai'&&(G.table.length===0||uncovered().length===0))||
     (G.defender==='ai'&&uncovered().length>0);
@@ -1155,7 +956,17 @@ function setSel(c,tg){
 }
 function bad(el){el.classList.remove('bad');void el.offsetWidth;el.classList.add('bad');snd('bad');setTimeout(()=>el.classList.remove('bad'),450);}
 function humanCard(c){
-  if(!G||G.phase!=='attack'||G.over||G.busy)return;
+  if(!G||G.over||G.busy)return;
+
+  /* Фаза «в придачу»: атакующий-человек докидывает */
+  if(G.phase==='taking'&&G.attacker==='human'){
+    if(tableRanks().has(c.rank)&&canExtraThrow()){
+      clearSel();doAttack('human',c);
+    }else bad(c.el);
+    return;
+  }
+
+  if(G.phase!=='attack')return;
   if(G.attacker==='human'){
     if(G.table.length===0||(tableRanks().has(c.rank)&&canThrow())){clearSel();doAttack('human',c);}
     else bad(c.el);
@@ -1200,6 +1011,10 @@ function refreshUI(){
   let m='';
   if(G.phase==='deal')m='Раздача карт…';
   else if(G.over)m='Игра окончена';
+  else if(G.phase==='taking'){
+    if(G.attacker==='human')m='Компьютер берёт — подкиньте ещё или «Готово»';
+    else m='Вы берёте — компьютер подкидывает...';
+  }
   else if(G.attacker==='human'){
     if(!G.table.length)m='Ваш ход — выберите карту для атаки';
     else if(!unc.length)m='Подкиньте ещё или нажмите «Бито»';
@@ -1210,10 +1025,14 @@ function refreshUI(){
     else m='Компьютер думает…';
   }
   $('#msg').textContent=m;
-  $('#bitoBtn').style.display=(!G.over&&!G.busy&&G.attacker==='human'&&G.table.length&&!unc.length)?'':'none';
-  $('#takeBtn').style.display=(!G.over&&!G.busy&&G.defender==='human'&&G.table.length)?'':'none';
-  document.body.classList.toggle('humanAtk',!G.over&&G.phase!=='deal'&&G.attacker==='human');
-  document.body.classList.toggle('aiAtk',!G.over&&G.phase!=='deal'&&G.attacker==='ai');
+
+  const inTaking=G.phase==='taking';
+  $('#bitoBtn').style.display=(!G.over&&!G.busy&&!inTaking&&G.attacker==='human'&&G.table.length&&!unc.length)?'':'none';
+  $('#takeBtn').style.display=(!G.over&&!G.busy&&!inTaking&&G.defender==='human'&&G.table.length)?'':'none';
+  $('#doneBtn').style.display=(!G.over&&!G.busy&&inTaking&&G.attacker==='human')?'':'none';
+
+  document.body.classList.toggle('humanAtk',!G.over&&G.phase!=='deal'&&(G.attacker==='human'||inTaking));
+  document.body.classList.toggle('aiAtk',!G.over&&G.phase!=='deal'&&(G.attacker==='ai'||inTaking));
   const humanDef=!G.over&&G.phase==='attack'&&G.defender==='human'&&G.table.length>0;
   const trOK=humanDef&&transferOK(),aR=attackRanks();
   G.human.hand.forEach(c=>{
@@ -1240,15 +1059,11 @@ function showEnd(){
   ov.querySelectorAll('.cf').forEach(e=>e.remove());
   if(w==='human'){
     t.textContent='ПОБЕДА!';
-    s.textContent=lastHand
-      ?'«Последняя рука — хуже дурака»: компьютер отбил последнюю карту и проиграл!'
-      :'Компьютер остался в дураках — вы ходите первым!';
+    s.textContent=lastHand?'«Последняя рука — хуже дурака»: компьютер отбил последнюю карту и проиграл!':'Компьютер остался в дураках — вы ходите первым!';
     snd('win');confetti();
   }else{
     t.textContent='ВЫ В ДУРАКАХ';
-    s.textContent=lastHand
-      ?'«Последняя рука — хуже дурака»: вы отбили последнюю карту своей последней картой.'
-      :'Компьютер перехитрил вас и ходит первым. Реванш?';
+    s.textContent=lastHand?'«Последняя рука — хуже дурака»: вы отбили последнюю карту своей последней картой.':'Компьютер перехитрил вас и ходит первым. Реванш?';
     snd('lose');
   }
   $('#endScore').textContent='Счёт партий — Вы '+SCORE.h+' : '+SCORE.a+' Комп';
@@ -1278,6 +1093,10 @@ $('#helpClose').onclick=()=>$('#help').classList.remove('show');
 $('#sndBtn').onclick=()=>{muted=!muted;$('#sndBtn').classList.toggle('off',muted);if(!muted){resumeAudio();snd('sel');}};
 $('#bitoBtn').onclick=()=>{resumeAudio();if(G&&G.attacker==='human')doBito();};
 $('#takeBtn').onclick=()=>{resumeAudio();doTake('human');};
+$('#doneBtn').onclick=()=>{
+  resumeAudio();
+  if(G&&G.phase==='taking'&&G.attacker==='human'&&!G.busy)executeTake();
+};
 $('#beatBtn').onclick=()=>{
   resumeAudio();
   if(!G||G.over||G.busy)return;
