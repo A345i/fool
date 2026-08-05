@@ -1,0 +1,22 @@
+{
+  "name": "Подкидной Дурак",
+  "short_name": "Дурак",
+  "description": "Подкидной Дурак — игра один на один против компьютера",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071b12",
+  "theme_color": "#0b3723",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
