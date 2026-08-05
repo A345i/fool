@@ -1,4 +1,4 @@
-const CACHE = 'durak-v1';
+const CACHE = 'durak-v2';
 const URLS = [
   './',
   './index.html',
