@@ -1,7 +1,9 @@
-const CACHE = 'durak-v2';
+const CACHE = 'cardgames-v3';
 const URLS = [
   './',
   './index.html',
+  './fool.html',
+  './bur-kozel.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
